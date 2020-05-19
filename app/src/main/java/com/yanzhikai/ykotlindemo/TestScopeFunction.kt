@@ -11,12 +11,13 @@ object TestScopeFunction {
     const val TAG = "jky"
 
     fun run(){
-        testTakeIf()
-        divider()
-        testWithoutTakeIf()
-        divider()
-        testTakeUnless()
-        divider()
+        testTakeIf().divider()
+        testWithoutTakeIf().divider()
+        testTakeUnless().divider()
+        testRun().divider()
+        testLet().divider()
+        testApply().divider()
+        testAlso().divider()
     }
 
     fun testRun() {
@@ -34,15 +35,17 @@ object TestScopeFunction {
     }
 
     fun testApply() {
-        "yan".apply {
+        val result = "yan".apply {
             Log.i(TAG, "testApply: length = ${length + 100}")
         }
+        Log.i(TAG, "testApply: $result")
     }
 
     fun testAlso() {
-        "yan".also {
+        val result = "yan".also {
             Log.i(TAG, "testApply: length = ${it.length + 100}")
         }
+        Log.i(TAG, "testAlso: $result")
     }
 
     fun testTakeIf() {
@@ -89,7 +92,8 @@ object TestScopeFunction {
         Log.i(TAG, "testTakeUnless: $name")
     }
 
-    private inline fun divider(){
+
+    private fun Unit.divider() {
         Log.i(TAG, "--------------------------------------------------------------")
     }
 }
