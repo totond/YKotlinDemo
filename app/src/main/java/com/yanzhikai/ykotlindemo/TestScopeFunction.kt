@@ -1,6 +1,8 @@
 package com.yanzhikai.ykotlindemo
 
 import android.util.Log
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
  * author: jacketyan
@@ -10,7 +12,7 @@ object TestScopeFunction {
 
     const val TAG = "jky"
 
-    fun run(){
+    fun run() {
         testTakeIf().divider()
         testWithoutTakeIf().divider()
         testTakeUnless().divider()
@@ -18,13 +20,14 @@ object TestScopeFunction {
         testLet().divider()
         testApply().divider()
         testAlso().divider()
+        testWith().divider()
     }
 
     fun testRun() {
         val result = "yan".run {
             "strLen = ${length + 100}"
         }
-        Log.i(TAG, "testLet: $result")
+        Log.i(TAG, "testRun: $result")
     }
 
     fun testLet() {
@@ -36,16 +39,23 @@ object TestScopeFunction {
 
     fun testApply() {
         val result = "yan".apply {
-            Log.i(TAG, "testApply: length = ${length + 100}")
+            "strLen = ${length + 100}"
         }
         Log.i(TAG, "testApply: $result")
     }
 
     fun testAlso() {
         val result = "yan".also {
-            Log.i(TAG, "testApply: length = ${it.length + 100}")
+            "strLen = ${it.length + 100}"
         }
         Log.i(TAG, "testAlso: $result")
+    }
+
+    fun testWith() {
+        val result = with("yan") {
+            "strLen = ${length + 100}"
+        }
+        Log.i(TAG, "testWith: $result")
     }
 
     fun testTakeIf() {
@@ -92,8 +102,22 @@ object TestScopeFunction {
         Log.i(TAG, "testTakeUnless: $name")
     }
 
+    fun testLogCost() {
+        logCostTime{
+            val a = 2 +3
+        }
+    }
+
 
     private fun Unit.divider() {
         Log.i(TAG, "--------------------------------------------------------------")
+        kotlin.run { }
+    }
+
+    public inline fun <R> logCostTime(noinline receiver: () -> R): R {
+        val aTime = System.currentTimeMillis()
+        val result = receiver.invoke()
+        Log.i(TAG, "$receiver costTime: ${System.currentTimeMillis() - aTime}")
+        return result
     }
 }
