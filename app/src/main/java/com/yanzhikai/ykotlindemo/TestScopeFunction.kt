@@ -14,14 +14,19 @@ object TestScopeFunction {
 
     fun run() {
         logCostTime {
-            val a = 1 + 1
-            print(a)
+            var a = 0
+            for (i in 0..100) {
+                a += 1
+            }
         }
 
         val aTime = System.nanoTime()
-        val b = 1 + 1
+        var b = 0
+        for (i in 0..100) {
+            b += 1
+        }
         print(b)
-        Log.i(TAG, "costTime: ${System.nanoTime() - aTime}")
+        Log.i(TAG, "costTime: ${(System.nanoTime() / - aTime) / 1000}")
 
 
         testTakeIf().divider()
@@ -128,7 +133,7 @@ object TestScopeFunction {
     public inline fun <R> logCostTime(noinline receiver: () -> R): R {
         val aTime = System.nanoTime()
         val result = receiver.invoke()
-        Log.i(TAG, "costTime: ${System.nanoTime() - aTime}")
+        Log.i(TAG, "costTime: ${(System.nanoTime() - aTime)/ 1000}")
         return result
     }
 }
