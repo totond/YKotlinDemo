@@ -11,7 +11,7 @@ public inline fun <R> logCostTime(receiver: () -> R): R {
         callsInPlace(receiver, InvocationKind.EXACTLY_ONCE)
     }
     val aTime = System.nanoTime()
-    val result = receiver.invoke()
+    val result = receiver()
     Log.i("jky", "costTime: ${(System.nanoTime() - aTime) / 1000}")
 
     return result

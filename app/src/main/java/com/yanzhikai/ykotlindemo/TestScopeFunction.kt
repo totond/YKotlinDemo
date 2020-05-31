@@ -15,14 +15,14 @@ object TestScopeFunction {
     fun run() {
         logCostTime {
             var a = 0
-            for (i in 0..100) {
+            for (i in 0..1000000) {
                 a += 1
             }
         }
 
         val aTime = System.nanoTime()
         var b = 0
-        for (i in 0..100) {
+        for (i in 0..1000000) {
             b += 1
         }
         print(b)
@@ -37,6 +37,9 @@ object TestScopeFunction {
         testApply().divider()
         testAlso().divider()
         testWith().divider()
+
+        Log.i(TAG, "A to num = ${"A".LetterToNum()}")
+
     }
 
     fun testRun() {
@@ -124,16 +127,24 @@ object TestScopeFunction {
         }
     }
 
-
     private fun Unit.divider() {
         Log.i(TAG, "--------------------------------------------------------------")
         kotlin.run { }
     }
 
-    public inline fun <R> logCostTime(noinline receiver: () -> R): R {
+     fun <R> logCostTime(receiver: () -> R): R {
         val aTime = System.nanoTime()
         val result = receiver.invoke()
         Log.i(TAG, "costTime: ${(System.nanoTime() - aTime)/ 1000}")
         return result
+    }
+
+    fun String.LetterToNum(): Int{
+        return when (this) {
+            "A" -> 1
+            "B" -> 2
+            "C" -> 3
+            else -> 0
+        }
     }
 }
